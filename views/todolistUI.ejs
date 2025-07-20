@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 60px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .task-form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .task-form input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .task-form button {
+      padding: 10px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .task-form button:hover {
+      background-color: #45a049;
+    }
+
+    .task-list {
+      list-style-type: none;
+    }
+
+    .task-list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f7f7f7;
+      padding: 12px 15px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .task-list span {
+      color: #333;
+    }
+
+    .delete-form {
+      margin: 0;
+    }
+
+    .delete-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+
+    .delete-btn:hover {
+      background-color: #e60000;
+    }
+
+    .completed span {
+  text-decoration: line-through;
+  color: gray;
+}
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>My To-Do List</h1>
+
+    <form action="/tasks/addTask" method="POST" class="task-form">
+      <input type="text" name="task" placeholder="Add a new task..." required />
+      <button type="submit">Add</button>
+    </form>
+<ul class="task-list">
+  <% tasks.forEach(t => { %>
+     <li class="<%= t.completed ? 'completed' : '' %>">
+      <form action="/tasks/toggleComplete" method="POST" class="toggle-form">
+        <input type="hidden" name="id" value="<%= t._id %>">
+        <button type="submit" class="complete-btn">
+          <%= t.completed ? '✔️' : '⬜' %>
+        </button>
+      </form>
+
+      <span><%= t.task %></span>
+      <form action="/tasks/deleteTask" method="POST" class="delete-form">
+        <input type="hidden" name="taskId" value="<%= t._id %>">
+        <button type="submit" class="delete-btn">✕</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+  </div>
+</body>
+
+</html>
